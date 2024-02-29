@@ -4,7 +4,7 @@ var { google } = require('googleapis');
 const dotenv = require('dotenv').config();
 
 const auth = new google.auth.GoogleAuth({
-    keyFilename: '../server/google_credentials.json',
+    keyFilename: './google_credentials.json',
     scopes: 'https://www.googleapis.com/auth/spreadsheets'
 });
 
@@ -15,7 +15,7 @@ router.get("/", async function(req, res, next) {
         const rows = await sheets.spreadsheets.values.get({
             auth,
             spreadsheetId: process.env.GOOGLE_SHEET_ID,
-            range: "Sheet1!A:F"
+            range: process.env.GOOGLE_SHEET_RANGE
         });
         res.send(rows.data.values);
     } catch(e) {
@@ -32,7 +32,7 @@ router.post("/", async function(req, res, next) {
         const rows = await sheets.spreadsheets.values.append({
             auth,
             spreadsheetId: process.env.GOOGLE_SHEET_ID,
-            range: "Sheet1!A:F",
+            range: process.env.GOOGLE_SHEET_RANGE,
             valueInputOption: "USER_ENTERED",
             resource: {
                 values: [req.body]
