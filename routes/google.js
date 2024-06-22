@@ -4,7 +4,8 @@ var { google } = require('googleapis');
 const dotenv = require('dotenv').config();
 
 const auth = new google.auth.GoogleAuth({
-    keyFilename: './google_credentials.json',
+    apiKey: process.env.API_KEY,
+    // keyFilename: './google_credentials.json',
     scopes: 'https://www.googleapis.com/auth/spreadsheets'
 });
 
@@ -28,8 +29,8 @@ const auth = new google.auth.GoogleAuth({
 router.post("/", async function(req, res, next) {
     try {
         const client = await auth.getClient();
-        const sheets = await google.sheets({ version: 'v4', auth: client });        
-        const rows = await sheets.spreadsheets.values.append({
+        const sheets = google.sheets({ version: 'v4', auth: client });        
+        const rows = sheets.spreadsheets.values.append({
             auth,
             spreadsheetId: process.env.GOOGLE_SHEET_ID,
             range: process.env.GOOGLE_SHEET_RANGE,
