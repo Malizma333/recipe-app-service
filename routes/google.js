@@ -8,22 +8,22 @@ const auth = new google.auth.GoogleAuth({
     scopes: 'https://www.googleapis.com/auth/spreadsheets'
 });
 
-router.get("/", async function(req, res, next) {
-    try {
-        const client = await auth.getClient();
-        const sheets = await google.sheets({ version: 'v4', auth: client });        
-        const rows = await sheets.spreadsheets.values.get({
-            auth,
-            spreadsheetId: process.env.GOOGLE_SHEET_ID,
-            range: process.env.GOOGLE_SHEET_RANGE
-        });
-        res.send(rows.data.values);
-    } catch(e) {
-        console.info("[Google Sheet Service]", e.message);
-        res.send("{}");
-    }
-    
-});
+// router.get("/", async function(req, res, next) {
+//     try {
+//         const client = await auth.getClient();
+//         const sheets = await google.sheets({ version: 'v4', auth: client });        
+//         const rows = await sheets.spreadsheets.values.get({
+//             auth,
+//             spreadsheetId: process.env.GOOGLE_SHEET_ID,
+//             range: process.env.GOOGLE_SHEET_RANGE
+//         });
+//         res.send(rows.data.values);
+//     } catch(e) {
+//         console.info("[Google Sheet Service]", e.message);
+//         res.send("{}");
+//     }
+//     
+// });
 
 router.post("/", async function(req, res, next) {
     try {
