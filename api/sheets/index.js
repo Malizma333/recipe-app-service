@@ -62,8 +62,10 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
 });
 
-app.listen(9000, () => {
-  console.log("Running on port 9000.");
-});
+if(process.env.NODE_ENV === 'development') {
+  app.listen(9000, () => {
+    console.log("Running on port 9000.");
+  });
+}
 
 module.exports = app;
